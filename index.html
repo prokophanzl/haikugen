@@ -24,11 +24,14 @@
 			<h1>Generátor haiku</h1>
 			<div class="haiku-container">
 				<div id="haiku">
-					Toto je haiku.
-					<br />
-					Edituj ho pode mnou,
-					<br />
-					napiš sem, co chceš.
+					<span id="haiku-text">
+						Toto je haiku.
+						<br />
+						Piš ho do editoru,
+						<br />
+						objeví se tu.
+					</span>
+					<span class="logo">dv</span>
 				</div>
 			</div>
 			<div class="settings">
@@ -42,20 +45,38 @@
 Piš ho do editoru,
 objeví se tu."
 				></textarea>
+				<!-- slider for #haiku font-size -->
+				<label for="font-size"><h2>Velikost písma</h2></label>
+				<input type="range" id="font-size" name="font-size" min="75" max="125" value="100" />
+				<!-- "download" button that uses html2canvas -->
+				<button id="download">Stáhnout</button>
 			</div>
-			<!-- slider for #haiku font-size -->
-			<label for="font-size"><h2>Velikost písma</h2></label>
-			<input type="range" id="font-size" name="font-size" min="16" max="64" value="32" />
 		</div>
 		<script>
 			// when the text is changed, update the haiku, making sure to include line breaks
 			$("#text").on("input", function () {
-				$("#haiku").html($(this).val().replace(/\n/g, "<br />"));
+				$("#haiku-text").html($(this).val().replace(/\n/g, "<br />"));
 			});
 
 			// when the font size is changed, update the haiku
 			$("#font-size").on("input", function () {
-				$("#haiku").css("font-size", $(this).val() + "px");
+				$("#haiku-text").css("font-size", $(this).val() + "%");
+			});
+
+			// when the download button is clicked, use html2canvas to download the haiku as a PNG image at scale 3
+			$("#download").click(function () {
+				// set #haiku font-size to 96px to remove scaling issues
+				$("#haiku").css("font-size", "96px");
+
+				html2canvas(document.getElementById("haiku")).then((canvas) => {
+					var a = document.createElement("a");
+					a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+					a.download = "haiku.png";
+					a.click();
+				});
+
+				// set #haiku font-size back to 32px
+				$("#haiku").css("font-size", "32px");
 			});
 		</script>
 	</body>
