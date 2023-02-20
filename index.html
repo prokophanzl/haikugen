@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="resources/css/compiled/index.css" />
+		<link rel="stylesheet" href="resources/compiled/index.css" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Rasa:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
@@ -19,5 +19,44 @@
 		<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 		<title>HaikuGen</title>
 	</head>
-	<body></body>
+	<body>
+		<div class="everything-container">
+			<h1>Generátor haiku</h1>
+			<div class="haiku-container">
+				<div id="haiku">
+					Toto je haiku.
+					<br />
+					Edituj ho pode mnou,
+					<br />
+					napiš sem, co chceš.
+				</div>
+			</div>
+			<div class="settings">
+				<!-- long text input -->
+				<label for="text"><h2>Text</h2></label>
+				<textarea
+					id="text"
+					name="text"
+					rows="5"
+					placeholder="Toto je haiku.
+Piš ho do editoru,
+objeví se tu."
+				></textarea>
+			</div>
+			<!-- slider for #haiku font-size -->
+			<label for="font-size"><h2>Velikost písma</h2></label>
+			<input type="range" id="font-size" name="font-size" min="16" max="64" value="32" />
+		</div>
+		<script>
+			// when the text is changed, update the haiku, making sure to include line breaks
+			$("#text").on("input", function () {
+				$("#haiku").html($(this).val().replace(/\n/g, "<br />"));
+			});
+
+			// when the font size is changed, update the haiku
+			$("#font-size").on("input", function () {
+				$("#haiku").css("font-size", $(this).val() + "px");
+			});
+		</script>
+	</body>
 </html>
